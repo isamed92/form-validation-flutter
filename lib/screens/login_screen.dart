@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            _LoginForm()
+            const _LoginForm()
           ]),
         ),
         const SizedBox(
@@ -46,52 +46,66 @@ class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Form(
-          child: Column(
-        children: [
-          TextFormField(
-            autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecorations.authInputDecoration(
-                hintText: 'john.doe@email.com',
-                labelText: 'Correo Electronico',
-                prefixIcon: Icons.alternate_email_sharp),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          TextFormField(
-            autocorrect: false,
-            obscureText: true,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecorations.authInputDecoration(
-                hintText: '********',
-                labelText: 'Password',
-                prefixIcon: Icons.lock_outline),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          MaterialButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            disabledColor: Colors.grey,
-            elevation: 0,
-            color: Colors.deepPurple,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-              child: const Text(
-                'Ingresar',
-                style: TextStyle(color: Colors.white),
-              ),
+    return Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            TextFormField(
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: 'john.doe@email.com',
+                  labelText: 'Correo Electronico',
+                  prefixIcon: Icons.alternate_email_sharp),
+              validator: (value) {
+                String pattern =
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regExp = new RegExp(pattern);
+
+                return regExp.hasMatch(value ?? '')
+                    ? null
+                    : 'El valor ingresado no luce como un correo';
+              },
             ),
-            onPressed: () {
-              // todo login form
-            },
-          )
-        ],
-      )),
-    );
+            const SizedBox(
+              height: 30,
+            ),
+            TextFormField(
+              autocorrect: false,
+              obscureText: true,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: '********',
+                  labelText: 'Password',
+                  prefixIcon: Icons.lock_outline),
+              validator: (value) {
+                if (value != null && value.length >= 6) return null;
+
+                return 'La contraseña debe de ser de 6 carateres';
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              disabledColor: Colors.grey,
+              elevation: 0,
+              color: Colors.deepPurple,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                child: const Text(
+                  'Ingresar',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              onPressed: () {
+                // todo login form
+              },
+            )
+          ],
+        ));
   }
 }
