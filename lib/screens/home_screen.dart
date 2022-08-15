@@ -8,16 +8,19 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Productos'),
+        title: const Text('Productos'),
       ),
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return ProductCard();
+          return GestureDetector(
+            child: const ProductCard(),
+            onTap: () => Navigator.pushNamed(context, 'product'),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {},
       ),
     );
