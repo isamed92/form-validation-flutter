@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app/screens/screen.dart';
+import 'package:productos_app/services/services.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(AppState());
+
+class AppState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProductsService(),
+        )
+      ],
+      child: MyApp(),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,8 +33,8 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],
-          appBarTheme: AppBarTheme(elevation: 0, color: Colors.indigo),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
+          appBarTheme: const AppBarTheme(elevation: 0, color: Colors.indigo),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.indigo, elevation: 0)),
     );
   }
